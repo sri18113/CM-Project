@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+          integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/form_styles.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<div class="sidebar">
+    <div style="display:flex;flex-direction:row;justify-content:space-between;align-items:center;">
+        <div class="logo-details">
+            <img src="{% static 'images/ATT_log02.png' %}" width="40px" style="margin-left:7px"/>
+            <span class="logo_name">AT&T</span>
+        </div>
+        <div style="margin-top:10px;margin-right:-15px;">
+            <i class="fa-solid fa-circle-chevron-left" id="toggle-btn" style="font-size:34px;color:white"></i>
+        </div>
+    </div>
+    <div class="menu-content">
+        <ul class="menu-items">
+            <li class="item {% if request.resolver_match.url_name == 'home_page' %}active{% endif %}">
+                <a href="{% url 'home_page' %}">
+                    <div>
+                        <img src="{% static 'images/green-home.png' %}" width="28px" style="margin-right:3px;"/>
+                        <span class="link_name">Home</span>
+                    </div>
+                </a>
+            </li>
+            <li class="item">
+              <div class="submenu-item" id="submenu-cable-matrix">
+                  <img src="{% static 'images/cables.png' %}" width="28px" style="margin-right:-18px;" />
+                  <span>Cable Matrix</span>
+                  <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <ul class="menu-items submenu {% if request.resolver_match and request.resolver_match.url_name in 'cb_home,dcs_request,cable_trace' %}open{% endif %}" id="submenu-cable-matrix">
+                  <div class="back-page">
+                    <a href="{% url 'home_page' %}" class="go-home">
+                        <i class="fa-solid fa-chevron-left"></i>
+                        Go to Home
+                    </a>
+                  </div>
+                  <li class="item">
+                      <a class="{% if request.resolver_match and request.resolver_match.url_name == 'cb_home' %}active{% endif %}" href="{% url 'cb_home' %}">
+                          Cable Matrix Overview
+                      </a>
+                  </li>
+                  <li class="item">
+                      <a class="{% if request.resolver_match and request.resolver_match.url_name == 'dcs_request' %}active{% endif %}" href="{% url 'dcs_request' %}">
+                          DCS Request
+                      </a>
+                  </li>
+                  <li class="item">
+                      <a class="{% if request.resolver_match and request.resolver_match.url_name == 'cable_trace' %}active{% endif %}" href="{% url 'cable_trace' %}">
+                          Cable Trace
+                      </a>
+                  </li>
+                  <li class="item">
+                    <a class="{% if request.resolver_match and request.resolver_match.url_name == 'network_design' %}active{% endif %}" href="{% url 'network_design' %}">
+                        Network Design
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="{% if request.resolver_match and request.resolver_match.url_name == 'cm' %}active{% endif %}" href="{% url 'cm' %}">
+                        Cable Matrix
+                    </a>
+                </li>
+                  <li class="item">
+                    <a class="{% if request.resolver_match and request.resolver_match.url_name == 'dis' %}active{% endif %}" href="{% url 'dis' %}">
+                        Device Installation Status
+                    </a>
+                  </li>
+                  <li class="item">
+                    <a class="{% if request.resolver_match and request.resolver_match.url_name == 'port_assign' %}active{% endif %}" href="{% url 'port_assign' %}">Port Assignments</a>
+                  </li>
+                  <li class="item">
+                    <a class="{% if request.resolver_match and request.resolver_match.url_name == 'cable_measurement' %}active{% endif %}" href="{% url 'cable_measurement' %}">Cable Measurement</a>                  </li>
+                  <li class="item">
+                    <a href="#">Cable/SFP Order</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Blade/Cable/Fiber/SFP Installed</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Port Turn Up</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">OOB-Management</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">SVT Document</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Turnover Document</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">FW Migration</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Identified FW for Decommission</a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="item">
+              <div class="submenu-item">
+                    <img src="{% static 'images/bill.png' %}" width="28px" style="margin-right:-68px;"/>
+                    <span>BOM</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+              </div>
+
+              <ul class="menu-items submenu">
+                <div class=".back-page">
+                    <a href="{% url 'cb_static_form' %}">
+                      <i class="fa-solid fa-chevron-left"></i>
+                      Go to Home
+                    </a>
+                  </div>
+                  <li class="item">
+                    <a href="#">Project Overview</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Project Overview</a>
+                  </li>
+                  <li class="item">
+                    <a href="#">Project Overview</a>
+                  </li>
+              </ul>
+          </li>
+
+          <li class="item">
+              <div class="submenu-item">
+                <img src="{% static 'images/dcomm3-removebg-preview.png'%}" width="35px" style="margin-right:-43px;margin-left:-6px"/>
+                  <span>Decomm</span>
+                  <i class="fa-solid fa-chevron-right"></i>
+              </div>
+
+              <ul class="menu-items submenu">
+                <div class=".back-page">
+                    <a href="{% url 'cb_static_form' %}">
+                      <i class="fa-solid fa-chevron-left"></i>
+                      Go to Home
+                    </a>
+                  </div>
+                  
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+                  <li class="item">
+                      <a href="#">Third Sublink</a>
+                  </li>
+              </ul>
+          </li>
+      </ul>
+  </div>
+  </div>
+
+  <!--Content section-->
+  <section class="home-section">
+
+      <!--Toggle button-->
+      {% comment %} <div class="home-content">
+        <i class="fa-solid fa-circle-chevron-left" style="font-size:34px"></i>
+      </div> {% endcomment %}
+
+      {% comment %} {% block content %}{% endblock %} {% endcomment %}
+
+      <!--Home Page with Pie chart-->
+      {% block displayHomePage %}{% endblock %}
+
+      <!--Project's home page-->
+      {% block displayProjectPage %}{% endblock %}
+
+      <!--Static form page-->
+      {% block displayStaticFormPage %}{% endblock %}
+
+      <!--Static form edit page -->
+      {% block displayStaticFormEditPage %}{% endblock %}
+
+      <!-- Phase Page -->
+      {% block displayPhasePage %}{% endblock %}
+      
+      <!--Pahse From Page-->
+      {% block displayFormPage  %}{% endblock %}
+
+      <!--Phase Form edit page -->
+      {% block displayFormEditPage %}{% endblock %}
+
+      
+      {% block displayStatusDevicePage %}{% endblock %}
+
+  </section>
+
+  <script src="{% static 'css/index.js' %}"></script>
+  <script>
+    document.querySelector('.submenu-item').onclick = () => {
+        document.querySelector('.item').classList.add('active');
+    }
+     
+    j
+    document.querySelector('..back-page').onclick = () => {
+        document.querySelector('.item').classList.remove('active')
+    }
+  </script>
+
+      
+</body>
+</html>
+
+

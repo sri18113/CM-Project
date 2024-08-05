@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+{% block title %}Device Details{% endblock %}
+{% load static %}
+{% block displayStaticFormEditPage %}
+<!-- Pop-up container for success message -->
+<div class="message-container" id="successMessage">
+    <!-- Success messages -->
+    {% if messages %}
+    <ul class="messages">
+        <!-- For loop to get submit result message -->
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        <!-- Close button -->
+        <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+    </ul>
+    {% endif %}
+</div>
+
+<!-- Pop-up container for error message-->
+<div class="message-container" id="errorMessage">
+    <!-- Success messages -->
+    {% if messages %}
+    <ul class="messages">
+        <!-- For loop to get submit result message -->
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        <!-- Close button -->
+        <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+    </ul>
+    {% endif %}
+</div>
+
+<h2 class="form-heading" style="text-align:center;">Device Status of all Phases</h2>
+    <table style="margin:0px 20px 0px 10%;width:auto">
+        <tr>
+            <th style="width:240px">Existing Device Host Name</th>
+            <td style="width:200px">{{ device.olddevice }}</td>
+            <th>New Device Host Name</th>
+            <td style="width:200px">{{ device.newdevice }} 
+            </td>
+        </tr>
+        <tr>
+            <th style="width:240px">DCS Request Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.dcs_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_dcs_request_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <th style="width:240px">Cable Trace Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.cable_trace_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_cable_trace_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                    {% comment %} <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_dcs_request' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div> {% endcomment %}
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th style="width:240px">Network Design Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.network_design_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_network_design_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <th style="width:240px">Cable Matrix Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.cable_matrix_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_cm_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            
+        </tr>  
+        <tr>
+            <th style="width:240px">Device Installation Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.device_installation_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_dis_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <th style="width:240px">Port Assignments Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.port_assignment_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_port_assign_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <th style="width:240px">Cable Measurement Status</th>
+            <td style="width:200px">
+                <div style="display:flex;flex-direction:row;justify-content:space-between;">
+                    <div>
+                        {{ device.cable_measurement_assignment_status }}
+                    </div>
+                    <div style="margin-left:10px;">
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <a href="{% url 'edit_cable_measurement_copy' device.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px" class="icon"></a>
+                        </form>
+                    </div>
+                </div>
+            </td>
+        </tr>      
+            
+    </table>
+    
+    <div style="margin:50px 0 0 10%">
+        <a href="{% url 'cb_home' %}">
+            <button class="btn btn-primary" type="submit">Back</button>
+        </a>
+    </div>
+
+    <!-- JavaScript to control actions -->
+    <script>
+        // Disable keyboard interaction in readonly fields
+        document.querySelectorAll('.readonly-field').forEach(function(element) {
+            element.addEventListener('keydown', function(event) {
+                event.preventDefault();
+            });
+        });
+    
+        // Function to show the pop-up for success message
+        function showPopup() {
+            var popup = document.getElementById('successMessage');
+            popup.style.display = 'block'; // Show the pop-up
+        }
+    
+        // Function to close the pop-up for success message
+        function closePopup() {
+            var popup = document.getElementById('successMessage');
+            popup.style.display = 'none'; // Hide the pop-up
+        }
+    
+        // Check if there are success messages on page load and show pop-up if present
+        window.onload = function() {
+            var successMessage = document.querySelector('.messages .success');
+            if (successMessage) {
+                showPopup();
+            }
+        };
+    
+        // Function to show the pop-up for error message
+        function showPopup() {
+            var popup = document.getElementById('errorMessage');
+            popup.style.display = 'block'; // Show the pop-up
+        }
+    
+        // Function to close the pop-up for error message
+        function closePopup() {
+            var popup = document.getElementById('errorMessage');
+            popup.style.display = 'none'; // Hide the pop-up
+        }
+    
+        // Check if there are error messages on page load and show pop-up if present
+        window.onload = function() {
+            var successMessage = document.querySelector('.messages .error');
+            if (successMessage) {
+                showPopup();
+            }
+        };
+    </script>
+
+{% endblock %}
+

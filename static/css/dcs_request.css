@@ -1,0 +1,178 @@
+/* +++++++++++++++++++ */
+.header{
+    color: #FFF;
+    font-size: 20px;
+    font-weight: 500;
+    align-items: flex-start;
+}
+.delete-icon{
+    margin-right: 10px;
+}
+
+.status-cards {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+.status-card {
+    flex : 1;
+    margin: 0 10px;
+    padding: 20px;
+    text-align: center;
+    border-radius: 5px;
+    color: #fff;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+.status-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+.status-card:nth-child(1) {
+    background-color: #e74c3c;
+}
+.status-card:nth-child(2) {
+    background-color: #3498db;
+}
+.status-card:nth-child(3) {
+    background-color: #2ecc71;
+}
+.status-card:nth-child(4) {
+    background-color: purple;
+}
+.status-card h2 {
+    margin: 0;
+    font-size: 36px;
+}
+.status-card p {
+    margin: 5px 0 0;
+    font-size: 18px;
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ecf0f1;
+}
+th {
+    background-color: #ecf0f1;
+}
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.action-icons {
+    display: flex;
+    align-items: center;
+}
+.action-icons span {
+    cursor: pointer;
+    margin-left: 10px;
+}
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.pagination button {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #2980b9;
+    color: #fff;
+    cursor: pointer;
+}
+.pagination span {
+    padding: 10px 20px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+.modal-content input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #bdc3c7;
+}
+.modal-content button {
+    padding: 10px 20px;
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+tr:hover .device-actions {
+    display: block;
+}
+.device-actions {
+    display: none;
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 5px;
+}
+
+
+/* Style for the pop-up */
+.message-container {
+    display: none; /* Initially hidden */
+    position: fixed; /* Fixed position on screen */
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Center alignment */
+    width: auto;
+    height: 150px;
+    padding: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    z-index: 1000; /* Ensure it's above other content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Optional: Add shadow */
+    overflow: auto;
+    
+}
+/* Style for the close button */
+.close {
+    position: absolute;
+    bottom: 20px; /* Distance from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center alignment */
+    cursor: pointer;
+    /* float:left;
+    cursor: pointer; */
+}

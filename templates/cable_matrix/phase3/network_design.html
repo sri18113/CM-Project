@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+{% block title %}Network Design Page{% endblock %}
+{% load static %}
+{% block displayPhasePage %}
+
+    <div>
+        <h1 class="header" style="text-align:center;margin-top:10px">Phase - Network Design</h1>
+    </div>
+
+    <!-- Pop-up container for success message -->
+    <div class="message-container" id="successMessage">
+        <!-- Success messages -->
+        {% if messages %}
+        <ul class="messages">
+            <!-- For loop to get submit result message -->
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            <!-- Close button -->
+            <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+        </ul>
+        {% endif %}
+    </div>
+
+    <!-- Pop-up container for error message-->
+    <div class="message-container" id="errorMessage">
+        <!-- Success messages -->
+        {% if messages %}
+        <ul class="messages">
+            <!-- For loop to get submit result message -->
+            {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+            <!-- Close button -->
+            <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+        </ul>
+        {% endif %}
+    </div>
+
+    <!-- Phase status cards container -->
+    <div class="status-cards">
+        <div class="status-card" style="background-color:white;" id="total-card">
+            <a href="#" style="text-decoration:none; color:white">
+                <h2 style="color:black;" id="total-count">{{ rows_count }}</h2>
+                <p style="color:black;">Total devices</p>
+            </a>
+        </div>
+        <div class="status-card" style="background-color:#2ecc71;" id="inprogress-card">
+            <a href="#" style="text-decoration:none; color:white">
+                <h2 id="inprogress-count">{{ in_progress_count }}</h2>
+                <p>In progress</p>
+            </a>
+        </div>
+        <div class="status-card" style="background-color:#3498db;" id="completed-card">
+            <a href="#" style="text-decoration:none; color:white">
+                <h2 id="completed-count">{{ completed_count }}</h2>
+                <p>Completed</p>
+            </a>
+        </div>
+        <div class="status-card" style="background-color:orange;" id="yettostart-card">
+            <h2 id="yettostart-count">{{ not_yet_started_count }}</h2>
+            <p>Not Yet Started</p>
+        </div>
+        <div class="status-card" style="background-color:#e74c3c;" id="cancelled-card">
+            <h2 id="cancelled-count">{{ cancelled_count }}</h2>
+            <p>Cancelled</p>
+        </div>
+    </div>
+
+    <!-- Table heading container -->
+    <div style="display:flex; flex-direction:row;justify-content:space-between;align-items:center; margin:20px 30px 10px 10px; ">
+        <!-- Table Heading -->
+        <h1 style="font-size:18px;font-weight:600;margin:0 10px 0 0">Network Design devices:</h1>
+        <form id="search-form" method="GET" action="{% url 'network_design' %}">
+            <!--Search input -->
+            <input type="text" id="search-input" name="q" value="{{ query }}" placeholder="Search...">
+        </form>
+    </div>
+
+    <!-- Table to display DCS Requests -->
+    <div class="table-container" style="max-height: 340px; overflow-y: auto;">
+        <table id="network-design-table" style="margin:0 10px 10px 10px;width:98%;">
+            <thead>
+                <tr>
+                    {% comment %} <th><td><input type="checkbox" name="selected_items" value="{{ dcs_request.id }}"></td><th> {% endcomment %}
+                    {% comment %} <th><input type="checkbox" id="select-all-checkbox"></th> {% endcomment %}
+                    <th>Existing Device Host Name</th>
+                    <th>New Device Host Name</th>
+                    <th>Network Design Start Date</th>
+                    <th>Network Design Close Date</th>
+                    <th>Network Design Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                {% for network_design in filtered_requests %}
+                <tr>
+                    {% comment %} <td><input type="checkbox" class="item-checkbox" name="selected_items" value="{{ network_design.id }}"></td> {% endcomment %}
+                    <td>{{ network_design.olddevice }}</td>
+                    <td>{{ network_design.newdevice }}</td>
+                    <td>{{ network_design.network_design_start_date }}</td>
+                    <td>{{ network_design.network_design_close_date }}</td>
+                    <td>{{ network_design.network_design_status }}</td>
+                    <td>
+                        <form action="#" method="post">
+                            {% csrf_token %}
+                            <div style="display:flex;flex-direction:row; justify-content:center">
+                                <div>
+                                    <a href="{% url 'edit_network_design' network_design.id %}" class="edit-link"><img src="{% static 'images/edit_icon.png'%}" width="24px"></a>
+                                </div>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7">Network Design Devices not found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+<!-- JavaScript to control actions -->
+<script>
+    // Function to show the pop-up for success message
+    function showPopup(id) {
+        var popup = document.getElementById('successMessage');
+        popup.style.display = 'block'; // Show the pop-up
+    }
+
+    // Function to close the pop-up for success message
+    function closePopup(id) {
+        var popup = document.getElementById('successMessage');
+        popup.style.display = 'none'; // Hide the pop-up
+    }
+
+    // Check if there are success or error messages on page load and show pop-ups if present
+    window.onload = function() {
+        var successMessage = document.querySelector('.messages .success');
+        var errorMessage = document.querySelector('.messages .error');
+        
+        if (successMessage) {
+            showPopup('successMessage');
+        }
+        
+        if (errorMessage) {
+            showPopup('errorMessage');
+        }
+    };
+
+
+    {% comment %} // Select all checkbox functionality
+    var selectAllCheckbox = document.getElementById('select-all-checkbox');
+    var itemCheckboxes = document.querySelectorAll('.item-checkbox');
+
+    selectAllCheckbox.addEventListener('change', function() {
+        itemCheckboxes.forEach(function(checkbox) {
+            checkbox.checked = selectAllCheckbox.checked;
+        });
+    }); {% endcomment %}
+</script>
+    
+{% endblock %}

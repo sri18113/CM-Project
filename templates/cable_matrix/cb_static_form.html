@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block displayStaticFormPage %}
+<h2 class="form-heading">Create Form</h2>
+    <div class="form-container">
+        <!-- Pop-up container for success message-->
+        <div class="message-container" id="successMessage">
+            <!-- Success messages -->
+            {% if messages %}
+            <ul class="messages">
+                <!-- For loop to get submit result message -->
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <!-- Close button -->
+                <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <!-- Pop-up container for error message-->
+        <div class="message-container" id="errorMessage">
+            <!-- Success messages -->
+            {% if messages %}
+            <ul class="messages">
+                <!-- For loop to get submit result message -->
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <!-- Close button -->
+                <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <form action="{% url 'submit_cb_static_form' %}" method="post">
+            {% csrf_token %}
+            <div class="data-entry-form" >
+                <div class="form-group">
+                    <label class="label-heading" for="requestor">Requestor</label> 
+                    <input class="input" type="text" id="requestor" value="rk" name="requestor" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="requesttype">Request Type</label>
+                    <input class="input" type="text" id="requesttype" value="new" name="requesttype" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="olddevice">Existing Device Host Name</label>
+                    <input class="input" type="text" id="olddevice" name="olddevice" value="pavm240" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="oldmodel">Existing Device Model</label>
+                    <input class="input" type="text" id="oldmodel" name="oldmodel" value="vm" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="rrd">Requirement Received Date</label>
+                    <input class="input" type="text" id="rrd" name="rrd" placeholder="MM/DD/YYYY" required>
+                </div>
+                
+                
+                <div class="form-group">
+                    <label class="label-heading" for="ipn">Implementation PMATT NO</label>
+                    <input class="input" type="text" id="ipn" name="ipn" value="4" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="cpn">Capital PMATT NO</label>
+                    <input class="input" type="text" id="cpn" name="cpn" value="5" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="pn">Project Name</label>
+                    <input class="input" type="text" id="pn" name="pn" value="ug" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="pm">Project Manager</label>
+                    <input class="input" type="text" id="pm" name="pm" value="rk12" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="newdevice">New Device Host Name</label>
+                    <input class="input" type="text" id="newdevice" name="newdevice" value="pavm241" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="newmodel">New Device Model</label>
+                    <input class="input" type="text" id="newmodel" name="newmodel" value="rk" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="location">Location</label>
+                    <input class="input" type="text" id="location" name="location" value="dc" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="clli">CLLI Code</label>
+                    <input class="input" type="text" id="clli" name="clli" value="CSAADV" required>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="domain">Domain</label>
+                    <input class="input" type="text" id="domain" name="domain" value="ADV" required>
+                </div>
+            </div>
+            <div style="margin-top:50px">
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+
+            <div style="margin-top:50px">
+                <a href="/cable matrix/">
+                    <button class="btn btn-primary" type="submit">Back</button>
+                </a>
+            </div>
+        </form>
+        
+    </div>
+
+    <!-- JavaScript to control pop-up visibility -->
+<script>
+    // Function to show the pop-up for success message
+    function showPopup() {
+        var popup = document.getElementById('successMessage');
+        popup.style.display = 'block'; // Show the pop-up
+    }
+
+    // Function to close the pop-up for success message
+    function closePopup() {
+        var popup = document.getElementById('successMessage');
+        popup.style.display = 'none'; // Hide the pop-up
+    }
+
+    // Check if there are success messages on page load and show pop-up if present
+    window.onload = function() {
+        var successMessage = document.querySelector('.messages .success');
+        if (successMessage) {
+            showPopup();
+        }
+    };
+
+    // Function to show the pop-up for error message
+    function showPopup() {
+        var popup = document.getElementById('errorMessage');
+        popup.style.display = 'block'; // Show the pop-up
+    }
+
+    // Function to close the pop-up for error message
+    function closePopup() {
+        var popup = document.getElementById('errorMessage');
+        popup.style.display = 'none'; // Hide the pop-up
+    }
+
+    // Check if there are error messages on page load and show pop-up if present
+    window.onload = function() {
+        var successMessage = document.querySelector('.messages .error');
+        if (successMessage) {
+            showPopup();
+        }
+    };
+</script>
+
+{% endblock %}

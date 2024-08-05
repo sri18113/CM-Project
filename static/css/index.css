@@ -1,0 +1,137 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins, sans-serif';
+}
+.sidebar{
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    background: #11101d;
+    padding: 15px;
+}
+.sidebar .logo-details {
+    display:flex;
+    align-items:center;
+    margin-left:-15px;
+    width:100%;
+}
+.sidebar .logo-details .logo{
+    display:flex;
+    align-items:center;
+}
+.sidebar .logo-details .logo_name{
+    font-size: 16px;
+    color:#fff;
+    text-align:center;
+    font-weight:600;
+}
+.sidebar a{
+    color: white;
+    text-decoration: none;
+}
+.menu-content {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    margin-top: 40px;
+    overflow-y: scroll;
+}
+.menu-content::-webkit-scrollbar{
+    display: none;
+}
+.menu-items{
+    height: 100%;
+    width: 100%;
+    list-style: none;
+    transition: all 0.4 ease;
+}
+.submenu-active .menu-items{
+    transform: translateX(-56%);
+}
+.menu-title{
+    color:white;
+    font-size: 14px;
+    padding: 15px 20px;
+}
+.item a,
+.submenu-item {
+    padding: 10px;
+    display: inline-block;
+    width: 100%;
+    border-radius: 12px;
+}
+.item i{
+    font-size: 12px;
+}
+.item a:hover,
+.submenu-item:hover,
+.submenu .menu-title:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+.submenu-item{
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.submenu{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top:0;
+    right: calc(-100% - 26px);
+    height: calc(100% + 100vh);
+    background: #11101d;
+    display: none;
+}
+.show-submenu ~ .submenu {
+    display: block;
+}
+.submenu .menu-title{
+    border-radius: 12px;
+    cursor: pointer;
+}
+.submenu .menu-title i{
+    margin-right: 10px;
+}
+.navbar ,
+.main{
+    left:250px;
+    width: 100vw;
+    width: calc(100% - 250px);
+    transition: all 0.5s ease;
+}
+.sidebar.close ~ .navbar,
+.sidebar.close ~ .main {
+    left:0;
+    width: 100%;
+}
+.navbar {
+    position: fixed;
+    color: #11101d;
+    padding: 10px 10px;
+    font-size: 24px;
+    background: #e7f2e7;
+    cursor: pointer;
+    z-index: 100;
+}
+.navbar #sidebar-close{
+    cursor: pointer;
+}
+.main{
+    position: rel;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: red;
+}
+.main h1{
+    color: #11101d;
+    font-size: 40px;
+    text-align: center;
+}
+

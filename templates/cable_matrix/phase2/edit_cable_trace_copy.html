@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block title %}Edit Cable Trace Form{% endblock %}
+{% load static %}
+{% block displayFormEditPage %}
+    <h1 class="form-heading">Edit Cable Trace</h1>
+    <div class="form-container">
+        <!-- Pop-up container for success message-->
+        <div class="message-container" id="successMessage">
+            <!-- Success messages -->
+            {% if messages %}
+            <ul class="messages">
+                <!-- For loop to get submit result message -->
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <!-- Close button -->
+                <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <!-- Pop-up container for error message-->
+        <div class="message-container" id="errorMessage">
+            <!-- Success messages -->
+            {% if messages %}
+            <ul class="messages">
+                <!-- For loop to get submit result message -->
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <!-- Close button -->
+                <button class="btn btn-primary close-button" onclick="closePopup()">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        
+            <form method="POST">
+                {% csrf_token %}
+                {% comment %} {{form.as_p}} {% endcomment %}
+                <div class="data-entry-form">
+                    <div class="form-group">
+                        <label class="label-heading" for "olddevice">Existing Device Host Name</label>
+                        <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="olddevice" name="olddevice" value="{{ form.olddevice.value }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for "newdevice">New Device Host Name</label>
+                        <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="newdevice" name="newdevice" value="{{ form.newdevice.value }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="trd">Cable Trace Requested Date</label>
+                        {% if form.cable_trace_requested_date.errors %}
+                            <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.cable_trace_requested_date.errors }}</div>
+                        {% endif %}
+                        <input class="input" type="text" id="trd" name="cable_trace_requested_date" value="{% if form.cable_trace_requested_date.value %}{{ form.cable_trace_requested_date.value|date:'m/d/y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="trd">Cable Trace Received Date</label>
+                        {% if form.cable_trace_received_date.errors %}
+                            <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.cable_trace_received_date.errors }}</div>
+                        {% endif %}
+                        <input class="input" type="text" id="trd" name="cable_trace_received_date" value="{% if form.cable_trace_received_date.value %}{{ form.cable_trace_received_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="tickets_required">Tickets Required</label>
+                        <select class="input select-option" id="tickets_required" name="tickets_required" required>
+                            <option value="" {% if not form.tickets_required.value %} selected {% endif %} disabled selected>Select Domain</option>
+                            <option value="EMAIL" {% if form.tickets_required.value == 'EMAIL' %} selected {% endif %}>EMAIL</option>
+                            <option value="ESS" {% if form.tickets_required.value == 'ESS' %} selected {% endif %}>ESS</option>
+                            <option value="ITONS" {% if form.tickets_required.value == 'ITONS' %} selected {% endif %}>ITONS</option>
+                            <option value="AORTS" {% if form.tickets_required.value == 'AORTS' %} selected {% endif %}>AORTS</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="trd">Ticket Requested Date</label>
+                        {% if form.tickets_requested_date.errors %}
+                            <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.tickets_requested_date.errors }}</div>
+                        {% endif %}
+                        <input class="input" type="text" id="trd" name="tickets_requested_date" value="{% if form.tickets_requested_date.value %}{{ form.tickets_requested_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="tri">Ticket Requested ID</label>
+                        <input class="input" type="text" id="tri" name="tickets_requested_id" value="{{ form.tickets_requested_id.value }}">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="trd">Ticket Closed Date</label>
+                        {% if form.tickets_closed_date.errors %}
+                            <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.tickets_closed_date.errors }}</div>
+                        {% endif %}
+                        <input class="input" type="text" id="trd" name="tickets_closed_date" value="{% if form.tickets_closed_date.value %}{{ form.tickets_closed_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    </div>
+                    <div class="form-group">
+                        <label class="label-heading" for="cable_trace_status">Cable Trace Status</label>
+                        <select class="input select-option" id="cable_trace_status" name="cable_trace_status" required>
+                        <option value="" {% if not form.cable_trace_status.value %} selected {% endif %} disabled selected>Select a Status</option>
+                        <option value="In Progress" {% if form.cable_trace_status.value == 'In Progress' %} selected {% endif %}>In Progress</option>
+                        <option value="Completed" {% if form.cable_trace_status.value == 'Completed' %} selected {% endif %}>Completed</option>
+                        <option value="Not Required" {% if form.cable_trace_status.value == 'Not Required' %} selected {% endif %}>Not Required</option>
+                        <option value="Cancelled" {% if form.cable_trace_status.value == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+                        <option value="Yet To Work" {% if form.cable_trace_status.value == 'Yet To Work' %} selected {% endif %}>Yet To Work</option>
+                        <option value="Not yet Started" {% if form.cable_trace_status.value == 'Not yet Started' %} selected {% endif %}>Not Yet Started</option>
+                        </select>
+                    </div> 
+                    <div class="form-group">
+                        <label class="label-heading" for="comment">Comment</label>
+                        <textarea id="comment" name="cable_trace_comment" rows="4">{{ form.cable_trace_comment.value }}</textarea>
+                    </div>
+                </div>
+                <div style="margin-top:50px">
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+            </form>
+    </div>
+    <!-- JavaScript to control actions -->
+    <script>
+        function showPopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'block';
+        }
+
+        function closePopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'none';
+        }
+
+        window.onload = function() {
+            {% if messages %}
+                {% if messages.tags == 'success' %}
+                    showPopup('successMessage');
+                {% else %}
+                    showPopup('errorMessage');
+                {% endif %}
+            {% endif %}
+        }
+    </script>
+{% endblock %}

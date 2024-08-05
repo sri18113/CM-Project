@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block title %}Edit DCS Request Form{% endblock %}
+
+{% load static %}
+{% block displayFormEditPage %}
+    <h1 class="form-heading">Edit DCS Request</h1>
+    <div class="form-container">
+        <!-- Pop-up container for success message-->
+        <div class="message-container" id="successMessage">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <button class="btn btn-primary close-button" onclick="closePopup('successMessage')">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <!-- Pop-up container for error message-->
+        <div class="message-container" id="errorMessage">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <button class="btn btn-primary close-button" onclick="closePopup('errorMessage')">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="data-entry-form">
+                <!-- Your form fields -->
+                <div class="form-group">
+                    <label class="label-heading" for="olddevice">Existing Device Host Name</label>
+                    <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="olddevice" name="olddevice" value="{{ form.olddevice.value }}">
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="newdevice">New Device Host Name</label>
+                    <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="newdevice" name="newdevice" value="{{ form.newdevice.value }}">
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="requested_date">DCS Requested Date</label>
+                    {% if form.requested_date.errors %}
+                        <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.requested_date.errors }}</div>
+                    {% endif %}
+                    <input class="input" type="text" id="requested_date" name="requested_date" value="{% if form.requested_date.value %}{{ form.requested_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="tri">DCS Request ID</label>
+                    <input class="input" type="text" id="tri" name="request_id" value="{{ form.request_id.value }}">
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="approved_date">DCS Request Approved Date</label>
+                    {% if form.approved_date.errors %}
+                        <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.approved_date.errors }}</div>
+                    {% endif %}
+                    <input class="input" type="text" id="approved_date" name="approved_date" value="{% if form.approved_date.value %}{{ form.approved_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+                    
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="dcs_status">DCS Request Status</label>
+                    <select class="input select-option" id="dcs_status" name="dcs_status" required>
+                        <option value="" {% if not form.dcs_status.value %} selected {% endif %} disabled>Select a Status</option>
+                        <option value="In Progress" {% if form.dcs_status.value == 'In Progress' %} selected {% endif %}>In Progress</option>
+                        <option value="Completed" {% if form.dcs_status.value == 'Completed' %} selected {% endif %}>Completed</option>
+                        <option value="Not Required" {% if form.dcs_status.value == 'Not Required' %} selected {% endif %}>Not Required</option>
+                        <option value="Cancelled" {% if form.dcs_status.value == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+                        <option value="Yet To Work" {% if form.dcs_status.value == 'Yet To Work' %} selected {% endif %}>Yet To Work</option>
+                        <option value="Not yet Started" {% if form.dcs_status.value == 'Not yet Started' %} selected {% endif %}>Not Yet Started</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="power_status">Power/Cabinets Status</label>
+                    <select class="input select-option" id="power_status" name="power_status" required>
+                        <option value="" {% if not form.power_status.value %} selected {% endif %} disabled>Select a Status</option>
+                        <option value="In Progress" {% if form.power_status.value == 'In Progress' %} selected {% endif %}>In Progress</option>
+                        <option value="Completed" {% if form.power_status.value == 'Completed' %} selected {% endif %}>Completed</option>
+                        <option value="Not Required" {% if form.power_status.value == 'Not Required' %} selected {% endif %}>Not Required</option>
+                        <option value="Cancelled" {% if form.power_status.value == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+                        <option value="Yet To Work" {% if form.power_status.value == 'Yet To Work' %} selected {% endif %}>Yet To Work</option>
+                        <option value="Not yet Started" {% if form.power_status.value == 'Not yet Started' %} selected {% endif %}>Not Yet Started</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="rack_status">Rack/Stack Status</label>
+                    <select class="input select-option" id="rack_status" name="rack_status" required>
+                        <option value="" {% if not form.rack_status.value %} selected {% endif %} disabled>Select a Status</option>
+                        <option value="In Progress" {% if form.rack_status.value == 'In Progress' %} selected {% endif %}>In Progress</option>
+                        <option value="Completed" {% if form.rack_status.value == 'Completed' %} selected {% endif %}>Completed</option>
+                        <option value="Not Required" {% if form.rack_status.value == 'Not Required' %} selected {% endif %}>Not Required</option>
+                        <option value="Cancelled" {% if form.rack_status.value == 'Cancelled' %} selected {% endif %}>Cancelled</option>
+                        <option value="Yet To Work" {% if form.rack_status.value == 'Yet To Work' %} selected {% endif %}>Yet To Work</option>
+                        <option value="Not yet Started" {% if form.rack_status.value == 'Not yet Started' %} selected {% endif %}>Not Yet Started</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="label-heading" for="comment">Comment</label>
+                    <textarea id="comment" name="dcs_comment" rows="4">{{ form.dcs_comment.value }}</textarea>
+                </div>
+            </div>
+            <div style="margin-top:50px">
+                <button class="btn btn-primary" type="submit">Update</button>
+            </div>
+            <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                <a href="{% url 'cb_home' %}">
+                    <button class="btn btn-primary" type="button">Back</button>
+                </a>
+            </div>
+        </form>
+    </div>
+    <script>
+        function showPopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'block';
+        }
+
+        function closePopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'none';
+        }
+
+        window.onload = function() {
+            {% if messages %}
+                {% if messages.tags == 'success' %}
+                    showPopup('successMessage');
+                {% else %}
+                    showPopup('errorMessage');
+                {% endif %}
+            {% endif %}
+        }
+    </script>
+    
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Edit Port Assignment Form{% endblock %}
+
+{% load static %}
+{% block displayFormEditPage %}
+    <h1 class="form-heading">Edit Port Assignment</h1>
+    <div class="form-container">
+        <!-- Pop-up container for success message-->
+        <div class="message-container" id="successMessage">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <button class="btn btn-primary close-button" onclick="closePopup('successMessage')">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <!-- Pop-up container for error message-->
+        <div class="message-container" id="errorMessage">
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+                <button class="btn btn-primary close-button" onclick="closePopup('errorMessage')">Close</button>
+            </ul>
+            {% endif %}
+        </div>
+        <form class="data-entry-form" action="#" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="label-heading" for="olddevice">Existing Device Host Name</label>
+                <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="olddevice" name="olddevice" value="{{ form.olddevice.value }}">
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="newdevice">New Device Host Name</label>
+                <input style="display: inline-block;pointer-events: none;cursor: default;" class="input" type="text" id="newdevice" name="newdevice" value="{{ form.newdevice.value }}">
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="port_assignment_ticket">Port Assignment Ticket</label>
+                <select class="input select-option" id="port_assignment_ticket" name="port_assignment_ticket" required>
+                    <option value="" {% if not form.port_assignment_ticket.value %} selected {% endif %} disabled selected>Select Domain</option>
+                    <option value="EMAIL" {% if form.port_assignment_ticket.value == 'EMAIL' %} selected {% endif %}>EMAIL</option>
+                    <option value="ESS" {% if form.port_assignment_ticket.value == 'ESS' %} selected {% endif %}>ESS</option>
+                    <option value="ITONS" {% if form.port_assignment_ticket.value == 'ITONS' %} selected {% endif %}>ITONS</option>
+                    <option value="AORTS" {% if form.port_assignment_ticket.value == 'AORTS' %} selected {% endif %}>AORTS</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="tickets_requested_date">Requirement Received Date</label>
+                {% if form.requirement_received_date.errors %}
+                    <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.requirement_received_date.errors }}</div>
+                {% endif %}
+                <input class="input" type="text" id="requirement_received_date" name="requirement_received_date" value="{% if form.requirement_received_date.value %}{{ form.requirement_received_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+            </div>
+
+
+            <div class="form-group">
+                <label class="label-heading" for="requestor">Requestor</label>
+                <input class="input" type="text" id="requestor" name="requestor" value="{{ form.requestor.value }}">
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="request_type">Request Type</label>
+                <input class="input" type="text" id="request_type" name="request_type" value="{{ form.request_type.value }}">
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="oldmodel">Existing Device Model</label>
+                <input class="input" type="text" id="oldmodel" name="oldmodel" value="{{ form.oldmodel.value }}">
+            </div>
+            <div class="form-group">
+                <label class="label-heading" for="requirement_received_date">Requirement Received Date</label>
+                {% if form.requirement_received_date.errors %}
+                    <div class="error-message" style="color:red;font-size:12px;margin-bottom:-20px;">{{ form.requirement_received_date.errors }}</div>
+                {% endif %}
+                <input class="input" type="text" id="requirement_received_date" name="requirement_received_date" value="{% if form.requirement_received_date.value %}{{ form.requirement_received_date.value|date:'m/d/Y' }}{% endif %}" placeholder="MM/DD/YYYY">
+            </div>
+
+            <div style="margin-top:50px; display:flex; justify-content:space-between;">
+                <div>
+                    <button class="btn btn-primary" type="submit">Update</button>
+                </div>
+                <div>
+                    <a href="{% url 'cb_home' %}">
+                        <button class="btn btn-primary" type="button">Back</button>
+                    </a>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+ 
+           
+        </form>
+    </div>
+    <script>
+        function showPopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'block';
+        }
+
+        function closePopup(type) {
+            var popup = document.getElementById(type);
+            popup.style.display = 'none';
+        }
+
+        window.onload = function() {
+            {% if messages %}
+                {% if messages.tags == 'success' %}
+                    showPopup('successMessage');
+                {% else %}
+                    showPopup('errorMessage');
+                {% endif %}
+            {% endif %}
+        }
+    </script>
+{% endblock %}

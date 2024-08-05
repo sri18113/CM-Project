@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block displayHomePage %}
+<h1 style="text-align:center;font-size:22px;font-weight:bold;">All Projects Overview</h1>
+<div class="charts-container">
+    <div class="chart-container">
+        <h1 style="text-align:center;font-size:24px">Cable Matrix </h1>
+        <h1 style="text-align:center;font-size:20px">Total Devices: {{rows_count}} </h1>
+        
+        <canvas id="cableMatrixChart"></canvas>
+        <p id="cableMatrixMessage" style="display:none; text-align:center; color:blue;">No devices found.</p>
+    </div>
+    <div class="chart-container">
+        <h1 style="text-align:center;font-size:26px">BOM</h1>
+        <canvas id="bomChart"></canvas>
+        <p id="bomMessage" style="display:none; text-align:center; color:red;">No data available for BOM.</p>
+    </div>
+    <div class="chart-container">
+        <h1 style="text-align:center;font-size:26px">Decomm</h1>
+        <canvas id="decommChart"></canvas>
+        <p id="decommMessage" style="display:none; text-align:center; color:red;">No data available for Decomm.</p>
+    </div>
+</div>
+
+<script>
+  // Sample data (replace with your actual data) for pie charts
+  var cableMatrixData = {
+    labels: ['Not Yet Started', 'In-Progress', 'Completed', 'Cancelled'],
+    datasets: [{
+        data: [{{not_yet_started_count}}, {{in_progress_count}}, {{completed_count}}, {{cancelled_count}}],
+        backgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c'],
+        hoverBackgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c']
+    }]
+  };
+  
+  var bomData = {
+    labels: ['Not Yet Started', 'In-Progress', 'Completed', 'Cancelled'],
+    datasets: [{
+        data: [150, 30, 150, 30],
+        backgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c'],
+        hoverBackgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c']
+    }]
+  };
+  
+  var decommData = {
+    labels: ['Not Yet Started', 'In-Progress', 'Completed', 'Cancelled'],
+    datasets: [{
+        data: [150, 30, 80, 10],
+        backgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c'],
+        hoverBackgroundColor: ['orange', '#3498db', '#2ecc71', '#e74c3c']
+    }]
+  };
+
+  function renderPieChart(chartId, data, messageId) {
+    var ctx = document.getElementById(chartId).getContext('2d');
+    if (data.datasets[0].data.every(item => item === 0)) {
+      document.getElementById(messageId).style.display = 'block';
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    } else {
+      document.getElementById(messageId).style.display = 'none';
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: data,
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          // Add other options as needed
+        },
+      });
+    }
+  }
+
+  // Initial rendering (you can choose to render on page load or on sidebar link click)
+  renderPieChart('cableMatrixChart', cableMatrixData, 'cableMatrixMessage');
+  renderPieChart('bomChart', bomData, 'bomMessage');
+  renderPieChart('decommChart', decommData, 'decommMessage');
+</script>
+
+{% endblock %}

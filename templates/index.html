@@ -1,0 +1,164 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>{% block title %}Home{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    </head>
+    <body>
+        <nav class="sidebar">
+            
+            <div class="logo-details">
+                {% comment %} <a href="" class="logo">Coding Lab</a> {% endcomment %}
+                <!-- <i class='bx bxl-c-plus-plus'></i> -->
+                 <div class="logo">
+                    <img src="{% static 'images/ATT_log02.png' %}" width="44px" />
+                 </div>
+                 <div class="logo_name">
+                    <span >AT&T</span>
+                 </div>
+            </div>
+            
+            <div class="menu-content">
+                <ul class="menu-items">
+                    {% comment %} <div class="menu-title">Your menu title</div> {% endcomment %}
+                    <li class="item">
+                        <a href=""><img src="{% static 'images/green-home.png' %}" width="28px"/>Home</a>
+                    </li>
+
+                    <li class="item">
+                        <div class="submenu-item">
+                            <span><a href="{% url 'cb_home' %}">Cable Matrix</></span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+
+                        <ul class="menu-items submenu">
+                            <div class="menu-title">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                Your submenu title
+                            </div>
+                            
+                            <li class="item">
+                                <a href="#">First Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">First Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">First Sublink</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="item">
+                        <div class="submenu-item">
+                            <span>BOM</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+
+                        <ul class="menu-items submenu">
+                            <div class="menu-title">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                Your submenu title
+                            </div>
+                            <li class="item">
+                                <a href="#">Second Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Second Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Second Sublink</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="item">
+                        <div class="submenu-item">
+                            <span>DECOMM</span>
+                            <i class="fa-solid fa-chevron-right"></i>
+                        </div>
+
+                        <ul class="menu-items submenu">
+                            <div class="menu-title">
+                                <i class="fa-solid fa-chevron-left"></i>
+                                Your submenu title
+                            </div>
+                            
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            <li class="item">
+                                <a href="#">Third Sublink</a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        
+        <nav class="navbar">
+            <i class="fa-solid fa-bars" id="sidebar-close"></i>
+            {% comment %} <i class="fa-solid fa-arrow-right-from-bracket" id="sidebar-close"></i> {% endcomment %}
+        </nav>
+        
+        <main class="main">
+            <h1>Admin Dashboard</h1>
+        </main>
+        
+
+    <script src="{% static 'js/index.js' %}"></script>
+    </body>
+</html>

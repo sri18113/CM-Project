@@ -1,0 +1,47 @@
+<!-- base.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Home{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Your other CSS and JS imports -->
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="logo-details">
+        <img src="{% static 'images/ATT_log02.png' %}" width="40px" style="margin-left:7px"/>
+        <span class="logo_name">AT&T</span>
+    </div>
+    <div class="menu-content">
+        <ul class="menu-items">
+            {% for nav_item in nav_items %}
+            <li class="item">
+                <a href="{% url 'nav_item_detail' nav_item.slug %}" class="{% if nav_item.slug == current_nav_slug %}active{% endif %}">
+                    {{ nav_item.title }}
+                </a>
+                <ul class="submenu">
+                    {% for subitem in nav_item.subitems.all %}
+                    <li class="subitem">
+                        <a href="{% url 'subnav_item_detail' nav_item.slug subitem.slug %}" class="{% if subitem.slug == current_subnav_slug %}active{% endif %}">
+                            {{ subitem.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="content">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<script src="{% static 'js/index.js' %}"></script>
+</body>
+</html>
